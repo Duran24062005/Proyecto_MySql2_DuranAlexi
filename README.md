@@ -110,13 +110,34 @@ Diseñar un sistema de base de datos relacional en MySQL que permita gestionar l
 ## Documetación
 
 
-### Esteructura
+# Pizzería Don Piccolo - Base de Datos
 
-```cmd
-/pizzeria-don-piccolo/ // Proyecto - Repo
- ├── funciones.sql
- ├── triggers.sql
- ├── vistas.sql
- ├── consultas.sql
+## Descripción
+Sistema relacional en MySQL para gestionar clientes, pizzas, ingredientes, pedidos, repartidores, domicilios y pagos. Incluye funciones, triggers, vistas y consultas.
+
+## Estructura del proyecto
+/pizzeria-don-piccolo/
+ ├── database.sql      -- tablas y datos base
+ ├── funciones.sql     -- funciones y procedimientos
+ ├── triggers.sql      -- triggers para stock, auditoría, etc.
+ ├── vistas.sql        -- vistas de reportes
+ ├── consultas.sql     -- consultas de ejemplo
  └── README.md
-```
+
+## Instrucciones
+1. Ejecutar `database.sql`.
+2. Ejecutar `funciones.sql`.
+3. Ejecutar `triggers.sql`.
+4. Ejecutar `vistas.sql`.
+5. Ejecutar `consultas.sql` para ver ejemplos.
+
+## Principales tablas
+- personas, roles, persona_rol
+- ingredientes, pizzas, pizza_ingredientes
+- pedidos, pedido_items, domicilios, repartidores, pagos
+- historial_precios
+
+## Notas importantes
+- Validar stock antes de confirmar pedidos (usar transacciones).
+- Triggers actualizan stock y estado de repartidor; ajustar según flujo real.
+- La función `fn_ganancia_neta_diaria` es aproximada; si tus recetas difieren por tamaño, ajustar la tabla `pizza_ingredientes`.
