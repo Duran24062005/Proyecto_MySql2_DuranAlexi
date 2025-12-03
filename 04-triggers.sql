@@ -63,7 +63,7 @@ END//
 
 
 -- 3. Trigger para marcar repartidor como "disponible" nuevamente cuando termine el domicilio.
-DROP TRIGGER IF EXISTS trg_liberar_domiciliario$$
+DROP TRIGGER IF EXISTS trg_liberar_domiciliario //
 
 CREATE TRIGGER trg_liberar_domiciliario
 AFTER UPDATE ON Domicilios
@@ -74,11 +74,11 @@ BEGIN
         SET estado = 'disponible'
         WHERE id = NEW.domiciliario_id;
     END IF;
-END$$
+END //
 
 
 -- Validar stock antes de insertar pedido
-DROP TRIGGER IF EXISTS trg_validar_stock_antes_pedido$$
+DROP TRIGGER IF EXISTS trg_validar_stock_antes_pedido //
 
 CREATE TRIGGER trg_validar_stock_antes_pedido
 BEFORE INSERT ON detalle_pedido_item
@@ -113,11 +113,11 @@ BEGIN
     END LOOP;
     
     CLOSE cur;
-END$$
+END //
 
 
 -- Ocupar domiciliario al asignar pedido
-DROP TRIGGER IF EXISTS trg_ocupar_domiciliario$$
+DROP TRIGGER IF EXISTS trg_ocupar_domiciliario //
 
 CREATE TRIGGER trg_ocupar_domiciliario
 AFTER INSERT ON Domicilios
@@ -126,11 +126,11 @@ BEGIN
     UPDATE Domiciliarios
     SET estado = 'ocupado'
     WHERE id = NEW.domiciliario_id;
-END$$
+END //
 
 
 -- Calcular costos del pedido
-DROP TRIGGER IF EXISTS trg_calcular_costos_pedido$$
+DROP TRIGGER IF EXISTS trg_calcular_costos_pedido //
 
 CREATE TRIGGER trg_calcular_costos_pedido
 AFTER INSERT ON detalle_pedido_item
@@ -168,6 +168,6 @@ BEGIN
             total_costos = costo_total_ingredientes + v_costo_ingredientes + costo_real_envio
         WHERE pedido_id = NEW.pedido_id;
     END IF;
-END$$
+END //
 
 DELIMITER ;
