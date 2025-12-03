@@ -268,6 +268,8 @@ erDiagram
 Sistema relacional en MySQL para gestionar clientes, pizzas, ingredientes, pedidos, repartidores, domicilios y pagos. Incluye funciones, triggers, vistas y consultas.
 
 ## Estructura del proyecto
+
+```cmd
 /pizzeria-don-piccolo/
  ├── database.sql      -- tablas y datos base
  ├── funciones.sql     -- funciones y procedimientos
@@ -275,6 +277,7 @@ Sistema relacional en MySQL para gestionar clientes, pizzas, ingredientes, pedid
  ├── vistas.sql        -- vistas de reportes
  ├── consultas.sql     -- consultas de ejemplo
  └── README.md
+```
 
 ## Instrucciones
 1. Ejecutar `database.sql`.
