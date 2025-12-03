@@ -1,5 +1,7 @@
 # Proyecto MySql 2 Alexi Durán Gómez
 
+![DB Diagram](./PiccoloPizzeriaDBDiagram.jpg)
+[Database Diagram](https://drive.google.com/file/d/1M8edml6KEO07dzT-MrCO0uAQ5ovipwEn/view?usp=sharing)
 
 ## Pizzería don Piccolo
 La empresa **Pizzería Don Piccolo** desea implementar un sistema de gestión de pedidos y domicilios para mejorar el control de sus operaciones.
