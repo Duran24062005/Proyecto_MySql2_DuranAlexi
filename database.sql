@@ -10,7 +10,7 @@ CREATE DATABASE pizzeria_piccolo_db;
 
 
 -- Uso de la base de datos
-use PiccoloPizzeriaDB;
+use pizzeria_piccolo_db;
 
 
 -- ================================= 35
@@ -39,7 +39,7 @@ CREATE TABLE Clientes (
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     persona_id INT NOT NULL,
-    email VARCHAR(50) NOT NULL UNIQUE,
+    usuario VARCHAR(50) NOT NULL UNIQUE,
     password_hash VARCHAR(100) NOT NULL,
     FOREIGN KEY (persona_id) REFERENCES Personas(id) ON DELETE CASCADE
 );
@@ -70,9 +70,10 @@ CREATE TABLE Pedidos (
     cliente_id INT NOT NULL,
     fecha_pedido DATETIME DEFAULT CURRENT_TIMESTAMP,
     metodo_pago ENUM('efectivo', 'tarjeta', 'transferencia', 'wallet') NOT NULL,
-    total DOUBLE NOT NULL,
+    total_pedido DOUBLE NOT NULL,
     iva_pct DECIMAL(5,2) DEFAULT 19.00,
     user_id INT,
+    estado ENUM('pendiente', 'en preparación', 'entregado', 'cancelado') NOT NULL,
     tipo_pedido ENUM('local', 'domicilio', 'llevar') NOT NULL,
     FOREIGN KEY (cliente_id) REFERENCES Clientes(id),
     FOREIGN KEY (user_id) REFERENCES users(id)
