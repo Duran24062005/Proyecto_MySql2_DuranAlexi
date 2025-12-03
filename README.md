@@ -112,6 +112,158 @@ Diseñar un sistema de base de datos relacional en MySQL que permita gestionar l
 
 # Pizzería Don Piccolo - Base de Datos
 
+```mermaid
+
+erDiagram
+
+    Personas {
+        INT id
+        VARCHAR(50) nombre
+        VARCHAR(20) telefono
+        VARCHAR(100) correo
+        VARCHAR(100) direccion
+        DATETIME fecha_creado
+        DATETIME fecha_actualizado
+    }
+
+    Clientes {
+        INT id
+        INT persona_id
+    }
+
+    users {
+        INT id
+        INT persona_id
+        VARCHAR(50) email
+        VARCHAR(100) password_hash
+    }
+
+    Domiciliarios {
+        INT id
+        INT persona_id
+        INT zona_asignada
+        ENUM estado
+    }
+
+    Zonas {
+        INT id_zona
+        VARCHAR nombre_zona
+        DOUBLE costo_base_envio
+        DOUBLE costo_por_km
+        INT tiempo_estim_min
+        BOOLEAN estado
+    }
+
+    Domicilios {
+        INT id
+        INT zona_id
+        INT domiciliario_id
+        INT pedido_id
+        TIME hora_salida
+        TIME hora_entrega
+        DOUBLE distancia_km
+        DOUBLE costo_envio
+    }
+
+    Pedidos {
+        INT id
+        INT cliente_id
+        DATETIME fecha_pedido
+        ENUM metodo_pago
+        DOUBLE total
+        DECIMAL iva_pct
+        INT user_id
+        ENUM tipo_pedido
+    }
+
+    Pizzas {
+        INT id
+        VARCHAR(50) nombre_pizza
+        VARCHAR(20) tamaño
+        DOUBLE precio_base
+        ENUM tipo_pizza
+        VARCHAR(250) descripcion
+        BOOLEAN activo
+        DATETIME fecha_creado
+        DATETIME fecha_actualizacion
+    }
+
+    Ingredientes {
+        INT id_ingrediente
+        VARCHAR(50) nombre
+        VARCHAR(30) unidad
+        DOUBLE costo_unitario
+        DOUBLE stock
+        DOUBLE stock_minimo
+    }
+
+    pizza_ingrediente {
+        INT id
+        INT pizzas_id
+        INT ingrediente_id
+        INT cantidad
+    }
+
+    detalle_pedido_item {
+        INT id
+        INT pedido_id
+        INT pizza_id
+        INT cantidad
+        DOUBLE precio_unitario
+        DOUBLE subtotal
+    }
+
+    pagos {
+        INT id
+        INT id_pedido
+        ENUM metodo
+        VARCHAR referencia
+        DATETIME fecha_pago
+    }
+
+    costo_pedido {
+        INT id
+        INT pedido_id
+        DOUBLE costo_total_ingredientes
+        DOUBLE costo_real_envio
+        DOUBLE total_costos
+    }
+
+    historial_precios {
+        INT id_hist
+        INT id_pizza
+        DOUBLE precio_antiguo
+        DOUBLE precio_nuevo
+        DATETIME fecha_actualizacion
+    }
+
+    %% RELACIONES
+    Personas ||--|{ Clientes : "persona_id"
+    Personas ||--|{ users : "persona_id"
+    Personas ||--|{ Domiciliarios : "persona_id"
+
+    Zonas ||--|{ Domiciliarios : "zona_asignada"
+    Zonas ||--|{ Domicilios : "zona_id"
+
+    Domiciliarios ||--|{ Domicilios : "domiciliario_id"
+
+    Clientes ||--|{ Pedidos : "cliente_id"
+    users ||--|{ Pedidos : "user_id"
+
+    Pedidos ||--|{ Domicilios : "pedido_id"
+    Pedidos ||--|{ detalle_pedido_item : "pedido_id"
+    Pedidos ||--|{ pagos : "id_pedido"
+    Pedidos ||--|{ costo_pedido : "pedido_id"
+
+    Pizzas ||--|{ detalle_pedido_item : "pizza_id"
+    Pizzas ||--|{ pizza_ingrediente : "pizzas_id"
+    Pizzas ||--|{ historial_precios : "id_pizza"
+
+    Ingredientes ||--|{ pizza_ingrediente : "ingrediente_id"
+
+
+```
+
 ## Descripción
 Sistema relacional en MySQL para gestionar clientes, pizzas, ingredientes, pedidos, repartidores, domicilios y pagos. Incluye funciones, triggers, vistas y consultas.
 
@@ -141,3 +293,13 @@ Sistema relacional en MySQL para gestionar clientes, pizzas, ingredientes, pedid
 - Validar stock antes de confirmar pedidos (usar transacciones).
 - Triggers actualizan stock y estado de repartidor; ajustar según flujo real.
 - La función `fn_ganancia_neta_diaria` es aproximada; si tus recetas difieren por tamaño, ajustar la tabla `pizza_ingredientes`.
+
+
+## Indices
+En un sistema real deberías indexar:
+
+- Pedidos(cliente_id)
+- Pedidos(user_id)
+- Pedidos(fecha_pedido)
+- detalle_pedido_item(pedido_id)
+- Domicilios(pedido_id) (UNIQUE recomendado)
