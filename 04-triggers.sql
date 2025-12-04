@@ -88,6 +88,7 @@ BEGIN
     DECLARE v_stock_actual DOUBLE;
     DECLARE v_cantidad_necesaria DOUBLE;
     DECLARE v_ingrediente_nombre VARCHAR(50);
+    DECLARE v_mensaje_error VARCHAR(255);
     DECLARE done INT DEFAULT FALSE;
     
     DECLARE cur CURSOR FOR
@@ -107,8 +108,9 @@ BEGIN
         END IF;
         
         IF v_stock_actual < v_cantidad_necesaria THEN
+            SET v_mensaje_error = CONCAT('Stock insuficiente de: ', v_ingrediente_nombre);
             SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = CONCAT('Stock insuficiente de: ', v_ingrediente_nombre);
+                SET MESSAGE_TEXT = v_mensaje_error;
         END IF;
     END LOOP;
     

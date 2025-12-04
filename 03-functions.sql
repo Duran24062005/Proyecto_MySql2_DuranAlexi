@@ -63,7 +63,7 @@ CREATE FUNCTION calcular_ganacia_neta_diaria(
     p_fecha DATE
 ) RETURNS DOUBLE
 DETERMINISTIC
-READ SQL DATA
+READS SQL DATA
 BEGIN
     DECLARE v_ventas_totales DOUBLE DEFAULT 0;
     DECLARE v_costos_totales DOUBLE DEFAULT 0;
@@ -173,7 +173,8 @@ END ; //
 
 DELIMITER ;
 
-
+SHOW FUNCTION STATUS;
+SHOW FUNCTION STATUS WHERE Db = 'pizzeria_piccolo_db';
 
 
 -- ================================= 35
@@ -371,3 +372,6 @@ BEGIN
 END ; //
 
 DELIMITER ;
+
+
+SHOW PROCEDURE STATUS;
