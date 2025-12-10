@@ -35,7 +35,11 @@ FROM Pedidos p
 
 -- Consulta de repartidores activos sin entregas
 -- Mostrar los repartidores con estado 'activo' que no tienen domicilios asignados (usa LEFT JOIN y WHERE domicilio.id_domicilio IS NULL).
-SELECT
+SELECT *
+FROM Domiciliarios d
+    JOIN Domicilios do ON d.id = do.domiciliario_id
+WHERE
+    d.estado = 'disponible';
 
 -- Vista resumen de desempeño
 -- Crear una vista vista_desempeno_repartidor que muestre:
