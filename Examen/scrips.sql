@@ -13,7 +13,7 @@ FROM
     Domiciliarios d
     JOIN Personas per ON d.persona_id = per.id
     JOIN Domicilios dom ON d.id = dom.domiciliario_id
-    JOIN Pedidos p ON d.id = p.id
+    JOIN Pedidos p ON dom.pedido_id = p.id
 WHERE
     p.estado = 'entregado'
 GROUP BY
@@ -46,3 +46,27 @@ WHERE
 -- nombre_repartidor
 -- entregas_totales
 -- promedio_minutos_entrega
+
+CREATE VIEW vista_desempeno_repartidor AS
+SELECT
+    d.id AS domiciliario_id,
+    per.nombre AS repartidor,
+    COUNT(dom.id) AS total_entregas,
+    TIMESTAMPDIFF (
+        MINUTE,
+        dom.hora_salida,
+        dom.hora_entrega
+    ) as diferencia
+FROM
+    Domiciliarios d
+    JOIN Personas per ON d.persona_id = per.id
+    JOIN Domicilios dom ON d.id = dom.domiciliario_id
+    JOIN Pedidos p ON dom.pedido_id = p.id
+WHERE
+    p.estado = 'entregado'
+GROUP BY
+    d.id,
+    per.nombre,
+    dom.hora_salida,
+    dom.hora_entrega
+ORDER BY total_entregas DESC;
