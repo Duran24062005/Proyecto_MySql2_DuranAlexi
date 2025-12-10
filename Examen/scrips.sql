@@ -52,11 +52,13 @@ SELECT
     d.id AS domiciliario_id,
     per.nombre AS repartidor,
     COUNT(dom.id) AS total_entregas,
-    TIMESTAMPDIFF (
-        MINUTE,
-        dom.hora_salida,
-        dom.hora_entrega
-    ) as diferencia
+    AVG(
+        TIMESTAMPDIFF (
+            MINUTE,
+            dom.hora_salida,
+            dom.hora_entrega
+        )
+    ) AS diferencia
 FROM
     Domiciliarios d
     JOIN Personas per ON d.persona_id = per.id
@@ -66,7 +68,5 @@ WHERE
     p.estado = 'entregado'
 GROUP BY
     d.id,
-    per.nombre,
-    dom.hora_salida,
-    dom.hora_entrega
+    per.nombre
 ORDER BY total_entregas DESC;
