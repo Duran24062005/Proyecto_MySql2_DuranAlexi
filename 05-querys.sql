@@ -380,3 +380,25 @@ FROM Ingredientes i
 INNER JOIN pizza_ingrediente pi ON i.id_ingrediente = pi.ingrediente_id
 GROUP BY i.id_ingrediente, i.nombre, i.unidad, i.stock, i.stock_minimo
 ORDER BY pizzas_que_lo_usan DESC;
+
+
+
+
+
+
+-- Seleccionar a todos lo repartidores y sus pedidos
+-- nombre, zona(nombre de la zona), hora salida, hora entrega, distancia, costo total
+SELECT 
+    p.nombre,
+    d.zona_asignada,
+    do.pedido_id,
+    z.nombre_zona,
+    do.hora_salida,
+    do.hora_entrega,
+    do.distancia_km,
+    FORMAT(pe.total_pedido, 2) as 'total pedido'
+FROM Personas p 
+INNER JOIN Domiciliarios d ON p.id = d.id
+INNER JOIN Domicilios do ON p.id = do.domiciliario_id
+INNER JOIN Zonas z ON do.zona_id = z.id_zona
+INNER JOIN Pedidos pe ON do.pedido_id = pe.id;
