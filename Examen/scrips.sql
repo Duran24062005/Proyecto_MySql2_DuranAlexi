@@ -25,15 +25,13 @@ ORDER BY total_entregas DESC;
 -- Mostrar los pedidos cuya entrega tomó más de 40 minutos entre hora_salida y hora_entrega
 --  (Usa TIMESTAMPDIFF(MINUTE, hora_salida, hora_entrega) > 40).
 
-SELECT (
-        TIMESTAMPDIFF (
-            MINUTE, d.hora_salida, d.hora_entrega
-        ) > 40
+SELECT TIMESTAMPDIFF (
+        MINUTE, d.hora_salida, d.hora_entrega
     ) as promedio
 FROM Pedidos p
+    JOIN Domicilios d
 where
-    preomdio > 40
-    JOIN Domicilios d;
+    promedio > 40;
 
 -- Consulta de repartidores activos sin entregas
 -- Mostrar los repartidores con estado 'activo' que no tienen domicilios asignados (usa LEFT JOIN y WHERE domicilio.id_domicilio IS NULL).
